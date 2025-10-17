@@ -1,0 +1,48 @@
+ Setup (Linux, remote GPU with CUDA)
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+ Install CUDA wheels as appropriate; adjust cu121 to your CUDA version
+pip install --index-url https://download.pytorch.org/whl/cu121 torch torchvision
+pip install -r requirements.txt
+
+ Baseline
+PYTHONPATH=. python scripts/baseline.py \
+  --hidden 512 --tau_ms 20 --dt_ms 1 --t_ref_ms 2 \
+  --num_steps 100 --fmax_hz 100 --batch_size 128 \
+  --readout logreg --data_dir .data --output_dir outputs --fig_dir figures --num_workers 4
+
+ Optional: stronger readout convergence (uncomment to use)
+ PYTHONPATH=. python scripts/baseline.py \
+   --hidden 512 --tau_ms 20 --dt_ms 1 --t_ref_ms 2 \
+   --num_steps 100 --fmax_hz 100 --batch_size 128 \
+   --readout logreg --max_iter 2000 --solver lbfgs --penalty none --C 1.0 \
+   --data_dir .data --output_dir outputs --fig_dir figures --num_workers 4
+
+ Homeostasis tweak
+PYTHONPATH=. python scripts/homeostasis.py \
+  --hidden 512 --tau_ms 20 --dt_ms 1 --t_ref_ms 2 \
+  --num_steps 100 --fmax_hz 100 --batch_size 128 \
+  --readout logreg --target_hz 10 --eta 0.01 --ema_alpha 0.9 --adapt_epochs 1 \
+  --data_dir .data --output_dir outputs --fig_dir figures --num_workers 4
+
+ Tau sweep tweak
+PYTHONPATH=. python scripts/tau_sweep.py \
+  --hidden 512 --dt_ms 1 --t_ref_ms 2 \
+  --num_steps 100 --fmax_hz 100 --batch_size 128 \
+  --readout logreg --tau_list 5 20 50 \
+  --data_dir .data --output_dir outputs --fig_dir figures --num_workers 4
+
+ Optional: alternate readout solver with L2
+ PYTHONPATH=. python scripts/tau_sweep.py \
+   --hidden 512 --dt_ms 1 --t_ref_ms 2 \
+   --num_steps 100 --fmax_hz 100 --batch_size 128 \
+   --readout logreg --tau_list 5 20 50 --solver saga --penalty l2 --C 1.0 --max_iter 2000 \
+   --data_dir .data --output_dir outputs --fig_dir figures --num_workers 4
+
+ Sparse connectivity tweak
+PYTHONPATH=. python scripts/sparse_connectivity.py \
+  --hidden 512 --tau_ms 20 --dt_ms 1 --t_ref_ms 2 \
+  --num_steps 100 --fmax_hz 100 --batch_size 128 \
+  --readout logreg --p_connect 0.05 \
+  --data_dir .data --output_dir outputs --fig_dir figures --num_workers 4

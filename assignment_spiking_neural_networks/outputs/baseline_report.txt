@@ -1,0 +1,4 @@
+Test Accuracy: 0.1156
+Params: hidden=1024, tau_ms=20.0, dt_ms=1.0, v_th=1.0
+Weights: N( 0.5, 0.1) excitatory-only
+Encoding: T=100, fmax=100.0 Hz

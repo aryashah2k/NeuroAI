@@ -1,0 +1,5 @@
+tau_ms=5.0: acc=0.1198
+tau_ms=20.0: acc=0.1157
+tau_ms=50.0: acc=0.1159
+Params: hidden=1024, dt_ms=1.0, v_th=1.0
+Encoding: T=100, fmax=100.0 Hz

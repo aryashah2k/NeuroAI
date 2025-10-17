@@ -1,0 +1,7 @@
+torch>=2.2
+torchvision>=0.17
+snntorch>=0.9.4
+scikit-learn>=1.3
+matplotlib>=3.8
+numpy>=1.26
+tqdm>=4.66

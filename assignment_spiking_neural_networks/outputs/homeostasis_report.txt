@@ -1,0 +1,4 @@
+Test Accuracy: 0.4331
+Params: hidden=1024, tau_ms=20.0, dt_ms=1.0, v_th=1.0
+Encoding: T=100, fmax=100.0 Hz
+Homeostasis: target_hz=10.0, eta=0.01, ema_alpha=0.9
