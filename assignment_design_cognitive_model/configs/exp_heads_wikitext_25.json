@@ -1,0 +1,13 @@
+{
+  "model_id": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "task": "wikitext_lm",
+  "wikitext_name": "wikitext-2-raw-v1",
+  "split": "validation",
+  "batch_size": 4,
+  "max_length": 512,
+  "ablation_type": "heads",
+  "selection_policy": "random",
+  "severity": 0.25,
+  "seeds": [1, 2, 3],
+  "notes": "Ablate 25% attention heads uniformly across layers on WikiText-2"
+}

@@ -1,0 +1,54 @@
+# TinyLlama Syntax-vs-Semantics Experiment: Step-by-step Commands (Windows PowerShell)
+# Run these from the project root: c:\Arya\cogsci\assignment4_2\
+
+# 0) Optional: Create and activate a virtual environment (recommended)
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# 1) Install dependencies
+pip install -r requirements.txt
+
+# 2) Quick GPU check (optional)
+python - << 'PY'
+import torch
+print('CUDA available:', torch.cuda.is_available())
+print('Device count:', torch.cuda.device_count())
+if torch.cuda.is_available():
+    print('Current device:', torch.cuda.current_device())
+    print('Device name:', torch.cuda.get_device_name(torch.cuda.current_device()))
+PY
+
+# 3) BLiMP: minimal smoke test (50 examples from a specific subset)
+python -m src.run_experiment --dataset blimp --subset wh_questions_subject_gap --limit 50 --output_dir results
+
+# 4) BLiMP: run ALL subsets (this can take a while; remove --limit to run full)
+# Tip: you can adjust --limit per your time/VRAM budget.
+python -m src.run_experiment --dataset blimp --output_dir results --limit 1000
+
+# 5) PAWS: run using the local CSV at src/data/paws_labeled_final_test.csv
+# The loader validates the header fields (expects sentence1, sentence2, label or aliases).
+python -m src.run_experiment --dataset paws --output_dir results --limit 500
+
+# 6) CoLA (optional): grammatical acceptability probe
+python -m src.run_experiment --dataset cola --output_dir results --limit 500
+
+# 7) Inspect results
+# Per-dataset JSONL
+Get-ChildItem results\*.jsonl | ForEach-Object { $_.FullName }
+# Aggregates (BLiMP summary and appended PAWS summary line)
+Get-Content results\aggregates.json
+
+# 8) LLM-as-a-Judge with a Hugging Face model (no API key needed)
+# Default model: Qwen/Qwen2.5-3B-Instruct (change with --judge_model)
+
+# Judge a sample of BLiMP outputs
+python -m src.judge_hf --input_jsonl results\blimp.jsonl --output_jsonl results\judge\blimp_judged_hf.jsonl --sample 100 --judge_model Qwen/Qwen2.5-3B-Instruct
+
+# Judge a sample of PAWS outputs
+python -m src.judge_hf --input_jsonl results\paws.jsonl --output_jsonl results\judge\paws_judged_hf.jsonl --sample 100 --judge_model Qwen/Qwen2.5-3B-Instruct
+
+# Judge a sample of CoLA outputs (optional)
+python -m src.judge_hf --input_jsonl results\cola.jsonl --output_jsonl results\judge\cola_judged_hf.jsonl --sample 100 --judge_model Qwen/Qwen2.5-3B-Instruct
+
+# 9) (Optional) Deactivate virtual environment when done
+Deactivate

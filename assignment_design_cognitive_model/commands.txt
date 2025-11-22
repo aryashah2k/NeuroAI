@@ -1,0 +1,43 @@
+# Commands to run the complete ablation study suite
+# Model: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+# Output directory: results/
+# Run these from the repository root.
+
+# --- Baselines ---
+python -m src.run_experiment --config configs/exp_baseline_wikitext.json --outdir results
+python -m src.run_experiment --config configs/exp_baseline_sst2.json --outdir results
+python -m src.run_experiment --config configs/exp_baseline_syntax.json --outdir results
+
+# --- Attention Head Ablation Sweeps ---
+# WikiText-2 LM (0.0, 0.25, 0.5, 0.75, 1.0; multiple seeds in config if specified)
+python -m src.run_experiment --config configs/exp_heads_wikitext_sweep.json --outdir results
+# SST-2 CLS (same severities)
+python -m src.run_experiment --config configs/exp_heads_sst2_sweep.json --outdir results
+
+# --- Layer Zeroing Sweeps (component = attn | mlp | block) ---
+# WikiText-2 LM
+python -m src.run_experiment --config configs/exp_layers_wikitext_sweep_attn.json --outdir results
+python -m src.run_experiment --config configs/exp_layers_wikitext_sweep_mlp.json --outdir results
+python -m src.run_experiment --config configs/exp_layers_wikitext_sweep_block.json --outdir results
+# SST-2 CLS
+python -m src.run_experiment --config configs/exp_layers_sst2_sweep_attn.json --outdir results
+python -m src.run_experiment --config configs/exp_layers_sst2_sweep_mlp.json --outdir results
+python -m src.run_experiment --config configs/exp_layers_sst2_sweep_block.json --outdir results
+# Subject–Verb Agreement Syntax Probe
+python -m src.run_experiment --config configs/exp_layers_syntax_sweep_attn.json --outdir results
+python -m src.run_experiment --config configs/exp_layers_syntax_sweep_mlp.json --outdir results
+python -m src.run_experiment --config configs/exp_layers_syntax_sweep_block.json --outdir results
+
+# --- Embedding Masking Sweeps ---
+# WikiText-2 LM
+python -m src.run_experiment --config configs/exp_embmask_wikitext_sweep.json --outdir results
+# SST-2 CLS
+python -m src.run_experiment --config configs/exp_embmask_sst2_sweep.json --outdir results
+
+# --- Aggregation ---
+# Combine all JSON results in results/ into a single CSV for analysis
+python scripts/aggregate_results.py --results results --out results_summary.csv
+
+# --- Optional: Sanity Checks ---
+# (Not part of main experiments, but useful to validate ablations)
+python scripts/sanity_checks.py

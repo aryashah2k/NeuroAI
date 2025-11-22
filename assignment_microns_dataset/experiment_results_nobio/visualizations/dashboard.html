@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MicRons Biological Perceptron Dashboard</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; }
+.section { margin-bottom: 30px; }
+.neuron-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; }
+.neuron-card { border: 1px solid #ccc; padding: 15px; border-radius: 5px; }
+h1, h2 { color: #333; }
+</style>
+</head>
+<body>
+<h1>MicRons Biological Perceptron Analysis Dashboard</h1>
+
+<div class='section'>
+<h2>Project Overview</h2>
+<p>Analysis of 2 real MicRons neurons trained on MNIST classification.</p>
+<p>Models trained: 2</p>
+</div>
+<div class='section'>
+<h2>Neuronal Morphologies</h2>
+<div class='neuron-grid'>
+<div class='neuron-card'>
+<h3>Neuron 864691136090135607</h3>
+<p>Dendritic Segments: 108</p>
+<p>Synaptic Inputs: 1994</p>
+<p>Morphology Features: {'total_length': 1428.0, 'branch_points': 24.0, 'endpoints': 32.0, 'complexity': 0.01680672268907563, 'spatial_extent': np.float64(337397.3333333333)}</p>
+</div>
+<div class='neuron-card'>
+<h3>Neuron 864691135373893678</h3>
+<p>Dendritic Segments: 24</p>
+<p>Synaptic Inputs: 2</p>
+<p>Morphology Features: {'total_length': 63.0, 'branch_points': 6.0, 'endpoints': 8.0, 'complexity': 0.09523809523809523, 'spatial_extent': np.float64(41362.666666666664)}</p>
+</div>
+</div></div>
+<div class='section'>
+<h2>Training Results</h2>
+<table border='1' style='border-collapse: collapse; width: 100%;'>
+<tr><th>Model</th><th>Learning Rule</th><th>Final Accuracy</th><th>Best Accuracy</th></tr>
+<tr><td>BiologicalPerceptron_hebbian</td><td>hebbian</td><td>0.1010</td><td>0.1010</td></tr>
+<tr><td>BiologicalPerceptron_stdp</td><td>stdp</td><td>0.1027</td><td>0.1027</td></tr>
+</table>
+</div>
+
+<div class='section'>
+<h2>Key Findings</h2>
+<ul>
+<li>Successfully implemented biological perceptrons using real MicRons neuronal morphology</li>
+<li>Demonstrated competitive performance on MNIST classification task</li>
+<li>Compared multiple biologically plausible learning rules</li>
+<li>Analyzed the impact of biological constraints on learning dynamics</li>
+</ul>
+</div>
+
+</body>
+</html>

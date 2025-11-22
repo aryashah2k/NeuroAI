@@ -1,0 +1,23 @@
+# MicRons Neuron-as-Perceptron Project Dependencies
+# Core MicRons data access
+caveclient
+cloud-volume
+meshparty
+
+# Neural networks and ML
+torch
+torchvision
+numpy
+pandas
+scikit-learn
+
+# Visualization
+matplotlib
+plotly
+seaborn
+networkx
+
+# Data handling
+h5py
+tqdm
+requests

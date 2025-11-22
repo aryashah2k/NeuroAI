@@ -1,0 +1,12 @@
+{
+  "model_id": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "task": "sst2_cls",
+  "split": "validation",
+  "batch_size": 16,
+  "max_length": 256,
+  "ablation_type": "none",
+  "severity": 0.0,
+  "selection_policy": "random",
+  "seeds": [42],
+  "notes": "Baseline accuracy on GLUE SST-2 validation via generative forced-choice"
+}
